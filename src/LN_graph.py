@@ -1,4 +1,5 @@
 import networkx as nx
+from shortest_path_algo import dijkstra
 
 class LN_graph(object):
     def __init__(self):
@@ -38,10 +39,6 @@ class LN_graph(object):
                                    disabled=LN_edge.node2_policy.disabled,
                                    )
     
-    def capacity_limitat_subgraph(self, transfered_amount):
-        """ """
-        return 
-    
     def neighbors(self, node_pub):
         """neighbors of the node """
         return self.nx_graph.neighbors(node_pub)
@@ -58,5 +55,13 @@ class LN_graph(object):
     def time_locks(self, node1_pub, node2_pub):
         return self.nx_graph[node1_pub, node2_pub]['time_locks']
     
+    def best_path(self, node1_pub, node2_pub, transfered_amount, cost='fee', method='dijkstra'):
+        if cost=='fee':
+            cost_function = lambda (node1_pub, node2_pub, transfered_amount): self.fee_tranfert(node1_pub, node2_pub, transfered_amount)
+        
+        if method=='dijkstra':
+            algorithm = dijkstra
+        
+        path = algorithm(self.nx_graph, node1_pub, cost_function, transfered_amount)
     
-    
+        return path

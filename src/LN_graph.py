@@ -1,6 +1,6 @@
 import networkx as nx
 
-class LN_grap(object):
+class LN_graph(object):
     def __init__(self):
         self.nx_graph = nx.DiGraph()
     
@@ -57,4 +57,6 @@ class LN_grap(object):
     
     def time_locks(self, node1_pub, node2_pub):
         return self.nx_graph[node1_pub, node2_pub]['time_locks']
+    
+    
     

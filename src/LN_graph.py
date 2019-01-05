@@ -59,13 +59,15 @@ class LN_graph(object):
     
     def best_path(self, node1_pub, node2_pub, transfered_amount, cost='fee', method='dijkstra'):
         if cost=='fee':
-            cost_function = lambda node1_pub, node2_pub, transfered_amount: self.fee_tranfert(node1_pub, node2_pub, transfered_amount)
+            cost_function = lambda node1_pub, node2_pub, transfered_amount: self.fee_tranfert(node2_pub, node1_pub, transfered_amount)
         
         if method=='dijkstra':
             algorithm = dijkstra
         
-        print nx.shortest_path(self.nx_graph,source=node1_pub,target=node2_pub)
-        path = algorithm(self.nx_graph, node1_pub,node2_pub, cost_function, transfered_amount)
+        path, cost = algorithm(self.nx_graph, 
+                         source_node_id=node2_pub,
+                         target_node_id=node1_pub,
+                         cost_function, transfered_amount)
 
     
-        return path
+        return path, cost

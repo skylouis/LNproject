@@ -1,7 +1,8 @@
-import json
 from src.LN_graph import LN_graph
+import requests
 
-graph = json.load(file('LN_snapshot/graph.json','rw'))
+url = 'https://graph.lndexplorer.com/api/graph'
+graph = requests.get(url).json()
 
 LN_nodes = graph['nodes']
 LN_edges = graph['edges']

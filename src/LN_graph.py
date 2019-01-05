@@ -1,4 +1,5 @@
 import networkx as nx
+import numpy as np
 from shortest_path_algo import dijkstra
 
 class LN_graph(object):
@@ -8,36 +9,37 @@ class LN_graph(object):
     def add_nodes(self, LN_nodes):
         """add nodes from the LN nodes class"""
         for LN_node in LN_nodes:
-            self.nx_graph.add_node(LN_node.pub_key,
-                                   last_update=LN_node.last_update,
+            self.nx_graph.add_node(LN_node['pub_key'],
+                                   last_update=LN_node['last_update'],
                                    )
         return
     
     def add_edges(self, LN_edges):
         """add edges from the LN edges class"""
         for LN_edge in LN_edges:
-            self.nx_graph.add_node(LN_edge.node1_pub,
-                                   LN_edge.node2_pub,
-                                   channel_id=LN_edge.channel_id,
-                                   last_update=LN_edge.last_update,
-                                   capacity=LN_edge.capacity,
-                                   time_lock_delta=LN_edge.node1_policy.time_lock_delta,
-                                   min_htlc=LN_edge.node1_policy.min_htlc,
-                                   fee_base_msat=LN_edge.node1_policy.fee_base_msat,
-                                   fee_rate_milli_msat=LN_edge.node1_policy.fee_rate_milli_msat,
-                                   disabled=LN_edge.node1_policy.disabled,
-                                   )
-            self.nx_graph.add_node(LN_edge.node2_pub,
-                                   LN_edge.node1_pub,
-                                   channel_id=LN_edge.channel_id,
-                                   last_update=LN_edge.last_update,
-                                   capacity=LN_edge.capacity,
-                                   time_lock_delta=LN_edge.node2_policy.time_lock_delta,
-                                   min_htlc=LN_edge.node2_policy.min_htlc,
-                                   fee_base_msat=LN_edge.node2_policy.fee_base_msat,
-                                   fee_rate_milli_msat=LN_edge.node2_policy.fee_rate_milli_msat,
-                                   disabled=LN_edge.node2_policy.disabled,
-                                   )
+            if LN_edge['node1_policy'] and LN_edge['node2_policy']:
+                self.nx_graph.add_edge(LN_edge['node1_pub'],
+                                       LN_edge['node2_pub'],
+                                       channel_id=LN_edge['channel_id'],
+                                       last_update=LN_edge['last_update'],
+                                       capacity=LN_edge['capacity'],
+                                       time_lock_delta=LN_edge['node1_policy']['time_lock_delta'],
+                                       min_htlc=LN_edge['node1_policy']['min_htlc'],
+                                       fee_base_msat=LN_edge['node1_policy']['fee_base_msat'],
+                                       fee_rate_milli_msat=LN_edge['node1_policy']['fee_rate_milli_msat'],
+                                       disabled=LN_edge['node1_policy']['disabled'],
+                                       )
+                self.nx_graph.add_edge(LN_edge['node2_pub'],
+                                       LN_edge['node1_pub'],
+                                       channel_id=LN_edge['channel_id'],
+                                       last_update=LN_edge['last_update'],
+                                       capacity=LN_edge['capacity'],
+                                       time_lock_delta=LN_edge['node2_policy']['time_lock_delta'],
+                                       min_htlc=LN_edge['node2_policy']['min_htlc'],
+                                       fee_base_msat=LN_edge['node2_policy']['fee_base_msat'],
+                                       fee_rate_milli_msat=LN_edge['node2_policy']['fee_rate_milli_msat'],
+                                       disabled=LN_edge['node2_policy']['disabled'],
+                                       )
     
     def neighbors(self, node_pub):
         """neighbors of the node """
@@ -48,20 +50,22 @@ class LN_graph(object):
     
     def fee_tranfert(self, node1_pub, node2_pub, transfered_amount):
         """lambda function to compute the fee transfert of the amount transfert"""
-        fee_base_msat = self.nx_graph[node1_pub, node2_pub]['fee_base_msat']
-        fee_rate_milli_msat = self.nx_graph[node1_pub, node2_pub]['fee_rate_milli_msat']
-        return  fee_base_msat + 1. * fee_rate_milli_msat * transfered_amount / 1000
+        fee_base_msat = float(self.nx_graph[node1_pub][node2_pub]['fee_base_msat'])
+        fee_rate_milli_msat = float(self.nx_graph[node1_pub][node2_pub]['fee_rate_milli_msat'])
+        return  fee_base_msat + (1. * fee_rate_milli_msat / 1000) * transfered_amount 
     
     def time_locks(self, node1_pub, node2_pub):
         return self.nx_graph[node1_pub, node2_pub]['time_locks']
     
     def best_path(self, node1_pub, node2_pub, transfered_amount, cost='fee', method='dijkstra'):
         if cost=='fee':
-            cost_function = lambda (node1_pub, node2_pub, transfered_amount): self.fee_tranfert(node1_pub, node2_pub, transfered_amount)
+            cost_function = lambda node1_pub, node2_pub, transfered_amount: self.fee_tranfert(node1_pub, node2_pub, transfered_amount)
         
         if method=='dijkstra':
             algorithm = dijkstra
         
-        path = algorithm(self.nx_graph, node1_pub, cost_function, transfered_amount)
+        print nx.shortest_path(self.nx_graph,source=node1_pub,target=node2_pub)
+        path = algorithm(self.nx_graph, node1_pub,node2_pub, cost_function, transfered_amount)
+
     
         return path

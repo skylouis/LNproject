@@ -2,7 +2,7 @@ import networkx as nx
 import numpy as np
 
 
-def Dijkstra(nx_graph, source_mode_id, weight_function, amount_transfered):
+def dijkstra(nx_graph, source_mode_id, target_mode_id, weight_function, amount_transfered):
     
     mode_ids = []
     dist = dict()
@@ -20,10 +20,14 @@ def Dijkstra(nx_graph, source_mode_id, weight_function, amount_transfered):
         mode_ids.remove(min_dist_mode_id)
         
         for neighbor_node_id in nx_graph.neighbors(min_dist_mode_id):
+            if nx_graph[min_dist_mode_id,neighbor_node_id]['capacity'] > (amount_transfered + dist[min_dist_mode_id]):
+                pass
+            
             alt = dist[min_dist_mode_id] + weight_function(
                     min_dist_mode_id,
                     neighbor_node_id,
                     amount_transfered + dist[min_dist_mode_id])
+            
             if alt < dist[neighbor_node_id]:
                 dist[neighbor_node_id] = alt
                 for node_id, value in prev.iteritems():
@@ -35,5 +39,10 @@ def Dijkstra(nx_graph, source_mode_id, weight_function, amount_transfered):
                         
                     
                 prev[neighbor_node_id] = min_dist_mode_id
-    return dist, prev
+                
+    path = []
+    while path[-1] != source_mode_id:
+        path.append(prev[path[-1]])
+    
+    return path[::-1]
 

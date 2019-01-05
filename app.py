@@ -27,7 +27,7 @@ def result():
                                  float(request.form['transfered_amount']),
                                  request.form['criteria'])
     print path
-    return render_template('result.html')
+    return render_template('result.html', path=path, cost=cost)
 
 @app.route('/bestpath/<criteria>/<source_node_pub>/<target_node_pub>/<transfered_amount>')
 def bestpath(criteria=None, source_node_pub=None, target_node_pub=None, transfered_amount=None):

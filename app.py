@@ -2,7 +2,7 @@ from src.LN_graph import LN_graph
 import requests
 from flask import Flask, json,render_template, request
 
-#%%
+
 url = 'https://graph.lndexplorer.com/api/graph'
 graph = requests.get(url).json()
 
@@ -13,7 +13,7 @@ graph = LN_graph()
 
 graph.add_nodes(LN_nodes)
 graph.add_edges(LN_edges)
-#%%
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -35,3 +35,6 @@ def bestpath(criteria=None, source_node_pub=None, target_node_pub=None, transfer
                                       target_node_pub,
                                       float(transfered_amount),
                                       criteria))
+    
+if __name__ == '__main__':
+    app.run(debug=True, use_reloader=True)

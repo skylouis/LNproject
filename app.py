@@ -22,11 +22,10 @@ def index():
 
 @app.route('/result', methods=['POST', 'GET'])
 def result():
-    path, cost = graph.best_path(request.form['node1_pub'],
+    path, cost, LN_nodes_path = graph.best_path(request.form['node1_pub'],
                                  request.form['node2_pub'],
                                  float(request.form['transfered_amount']),
                                  request.form['criteria'])
-    print path
     return render_template('result.html', path=path, cost=cost)
 
 @app.route('/bestpath/<criteria>/<source_node_pub>/<target_node_pub>/<transfered_amount>')

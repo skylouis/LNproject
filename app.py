@@ -1,6 +1,8 @@
 from src.LN_graph import LN_graph
 import requests
+from flask import Flask, json,render_template, request
 
+#%%
 url = 'https://graph.lndexplorer.com/api/graph'
 graph = requests.get(url).json()
 
@@ -12,6 +14,24 @@ graph = LN_graph()
 graph.add_nodes(LN_nodes)
 graph.add_edges(LN_edges)
 #%%
-print graph.best_path('022fbf66d0c695894bd5de86e35764f4890fcdf4ef577b3f8bc25efd55b4f220e3',
-                      '02f304f0ed1dd6ae7b8677025e40c9254b3b9d77a44718f21aa3e3322552af7562',
-                      100000)
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/result', methods=['POST', 'GET'])
+def result():
+    path, cost = graph.best_path(request.form['node1_pub'],
+                                 request.form['node2_pub'],
+                                 float(request.form['transfered_amount']),
+                                 request.form['criteria'])
+    print path
+    return render_template('result.html', path=path, cost=cost)
+
+@app.route('/bestpath/<criteria>/<source_node_pub>/<target_node_pub>/<transfered_amount>')
+def bestpath(criteria=None, source_node_pub=None, target_node_pub=None, transfered_amount=None):
+    return json.dumps(graph.best_path(source_node_pub,
+                                      target_node_pub,
+                                      float(transfered_amount),
+                                      criteria))

@@ -67,7 +67,8 @@ class LN_graph(object):
         path, cost = algorithm(self.nx_graph, 
                          source_node_id=node2_pub,
                          target_node_id=node1_pub,
-                         cost_function, transfered_amount)
+                         weight_function=cost_function,
+                         amount_transfered=transfered_amount)
 
     
         return path, cost

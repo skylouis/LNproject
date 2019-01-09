@@ -1,4 +1,5 @@
 from src.LN_graph import LN_graph
+from math import *
 import requests
 from flask import Flask, json,render_template, request
 
@@ -22,11 +23,18 @@ def index():
 
 @app.route('/result', methods=['POST', 'GET'])
 def result():
+    query = [request.form['node1_pub'],
+            request.form['node2_pub'],
+            float(request.form['transfered_amount']),
+            request.form['criteria']]
+
+
     path, cost, LN_nodes_path = graph.best_path(request.form['node1_pub'],
                                  request.form['node2_pub'],
-                                 float(request.form['transfered_amount']),
+                                 float(request.form['transfered_amount'])*1000,
                                  request.form['criteria'])
-    return render_template('result.html', path=path, cost=cost)
+    cost = ceil(cost/1000)
+    return render_template('result.html', query=query, path=path, cost=cost)
 
 @app.route('/bestpath/<criteria>/<source_node_pub>/<target_node_pub>/<transfered_amount>')
 def bestpath(criteria=None, source_node_pub=None, target_node_pub=None, transfered_amount=None):
@@ -34,6 +42,6 @@ def bestpath(criteria=None, source_node_pub=None, target_node_pub=None, transfer
                                       target_node_pub,
                                       float(transfered_amount),
                                       criteria))
-    
+
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)

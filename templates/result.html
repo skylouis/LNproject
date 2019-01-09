@@ -46,8 +46,8 @@
      $.ajax(settings).done(function (response) {
        console.log(response);
        var content = parseFloat({{ query[2] }}*1e-8/response).toFixed(2);
+       $("#btc_dollar_exchange").append("$");
        $("#btc_dollar_exchange").append(content);
-       // $("#btc_dollar_exchange").append(" $");
      });
   </script>
 </head>
@@ -92,10 +92,6 @@
   </div>
 
   <h1>Route result</h1>
-  {{ query[0] }} <br>
-  {{ query[1] }} <br>
-  {{ query.transfered_amount }} <br>
-  {{ query }}
 
   <div class="container-fluid">
     <div class="row justify-content-center">
@@ -110,19 +106,20 @@
                 <th>#</th>
                 <th>Public Key</th>
                 <th>Alias</th>
-                <th>Address</th>
-                <th>Fee Policy</th>
                 <th>Country</th>
+                <th>Trust index <em>(beta)</em></th>
               </tr>
             </thead>
             <tbody>
-              {% for node in path %}
+              {% for row in nodes_path %}
               <tr>
-                <td>{{ node.color }}</td>
-                <td>{{ node.pub_key }}</td>
-                <td>{{ node.alias }}</td>
-                <td>{{ node.address }}</td>
-                <td>{{ node.country }}</td>
+                <td>
+                  <div style="height: 1.5em;width: 1.5em;background-color: {{ row.color }}"></div>
+                </td>
+                <td>{{ row.pub_key }}</td>
+                <td>{{ row.alias }}</td>
+                <td>{{ row.geo_info.country_name }}</td>
+                <td>-</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -135,8 +132,7 @@
   </div>
 
   <div id="total_result">
-    Fee:<br>
-    {{cost}}
+    Fee: {{cost}}
     <div id="btc_dollar_exchange">Fees in dollar: </div>
   </div>
 

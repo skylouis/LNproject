@@ -34,7 +34,7 @@ def result():
                                  float(request.form['transfered_amount'])*1000,
                                  request.form['criteria'])
     cost = ceil(cost/1000)
-    return render_template('result.html', query=query, path=path, cost=cost)
+    return render_template('result.html', query=query, path=path, cost=cost, nodes_path=LN_nodes_path)
 
 @app.route('/bestpath/<criteria>/<source_node_pub>/<target_node_pub>/<transfered_amount>')
 def bestpath(criteria=None, source_node_pub=None, target_node_pub=None, transfered_amount=None):

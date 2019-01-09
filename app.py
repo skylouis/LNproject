@@ -27,16 +27,13 @@ def result():
             request.form['node2_pub'],
             float(request.form['transfered_amount']),
             request.form['criteria']]
-            
-    path, cost = graph.best_path(request.form['node1_pub'],
+
+
+    path, cost, LN_nodes_path = graph.best_path(request.form['node1_pub'],
                                  request.form['node2_pub'],
                                  float(request.form['transfered_amount'])*1000,
                                  request.form['criteria'])
     cost = ceil(cost/1000)
-
-    print path
-
-
     return render_template('result.html', query=query, path=path, cost=cost)
 
 @app.route('/bestpath/<criteria>/<source_node_pub>/<target_node_pub>/<transfered_amount>')

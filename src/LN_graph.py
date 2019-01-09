@@ -9,8 +9,14 @@ class LN_graph(object):
     def add_nodes(self, LN_nodes):
         """add nodes from the LN nodes class"""
         for LN_node in LN_nodes:
+            if 'geo_info' in LN_node.keys():
+                geo_info = LN_node['geo_info']
+            else:
+                geo_info = np.nan
+
             self.nx_graph.add_node(LN_node['pub_key'],
                                    last_update=LN_node['last_update'],
+                                   geo_info=geo_info
                                    )
         return
 
@@ -69,5 +75,10 @@ class LN_graph(object):
                          target_node_id=node1_pub,
                          weight_function=cost_function,
                          amount_transfered=transfered_amount)
+        LN_nodes_path = []
+        for pub_key in path:
+            LN_node = self.nx_graph.nodes['pub_key']
+            LN_node['pub_key'] = pub_key
+            LN_nodes_path.append(LN_node)
 
-        return path, cost
+        return path, cost, LN_nodes_path

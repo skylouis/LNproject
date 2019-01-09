@@ -77,7 +77,7 @@ class LN_graph(object):
                          amount_transfered=transfered_amount)
         LN_nodes_path = []
         for pub_key in path:
-            LN_node = self.nx_graph.nodes['pub_key']
+            LN_node = self.nx_graph.nodes[pub_key]
             LN_node['pub_key'] = pub_key
             LN_nodes_path.append(LN_node)
 

@@ -1,0 +1,101 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body{
+  /* background: url("img/background_node.jpg"); */
+  background-color: #ddd;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+header{
+  background-color: #00558d;
+  color: white;
+  height: 50px;
+}
+
+.main{
+  padding: 30px;
+  /* background: rgba(255,255,255,0.6) */
+}
+
+h1 {
+	font-weight: 300;
+	text-align: center;
+	font-size: 32px;
+  color: white;
+  background-color: #00558d;
+  padding: 15px;
+}
+
+#typed_subtitle {
+	text-align: center;
+	color: black;
+	font-size: 1.5em;
+}
+
+#typed {
+	color: #a76f8b;
+	font-weight: bold;
+	background-color: white;
+}
+
+#search_zone {
+  margin: 0 auto;
+  width: 100%;
+  background-color: #bed9ec;
+  padding: 30px;
+}
+
+#search_zone_result {
+  margin: 0 auto;
+  width: 100%;
+  background-color: #bed9ec;
+  padding: 15px;
+}
+
+#search_zone input, #search_zone select, #search_zone_result input, #search_zone_result select{
+  width: 100%;
+  height: 50px;
+  margin-bottom: 20px;
+}
+
+#search_zone input[type=text], #search_zone select, #search_zone_result input[type=text], #search_zone_result select{
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#search_zone input[type=submit], #search_zone_result input[type=submit]{
+  background-color: #338dc9;
+  color: white;
+}
+
+#search_zone input[type=text], #search_zone select{
+  padding: 12px 20px;
+}
+
+footer{
+  background-color: #4d4d4d;
+  color: white;
+  /* position: fixed;
+  left: 0;
+  bottom: 0; */
+  width: 100%;
+}
+
+footer p{
+  margin: 20px;
+}
+
+footer a{
+  color: white;
+  text-decoration: none;
+  text-align: center;
+}
+
+footer a:hover{
+  color: white;
+}

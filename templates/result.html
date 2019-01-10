@@ -140,7 +140,6 @@
       </div>
     </div>
 
-    {{ nodes_path[0].color }}
 
   <div class="row justify-content-center">
     <div class="col-12 col-sm-12 col-lg-8">
@@ -165,9 +164,9 @@
           L.circle([{{row.geo_info.latitude}}, {{row.geo_info.longitude}}], {
             color: '{{row.color}}',
             fillColor: '{{row.color}}',
-            fillOpacity: 0.3,
+            fillOpacity: 0.5,
             radius: 200000
-          }).addTo(map);
+          }).bindPopup("{{ row.alias }}").addTo(map);
           {% endfor %}
          </script>
       </div>

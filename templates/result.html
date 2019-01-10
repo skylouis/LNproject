@@ -161,16 +161,14 @@
           map.setView(new L.LatLng(30, 0),2);
           map.addLayer(osm);
 
-          // {% for row in nodes_path %}
-        // console.log({{ nodes_path[0].pub_key }})
-        // console.log({{ nodes_path[0].color }})
-          var circle = L.circle([0, 0], {
-            color: '{{nodes_path[0].color}}',
-            fillColor: '{{nodes_path[0].color}}',
-            fillOpacity: 0.5,
-            radius: 300000
+          {% for row in nodes_path %}
+          L.circle([{{row.geo_info.latitude}}, {{row.geo_info.longitude}}], {
+            color: '{{row.color}}',
+            fillColor: '{{row.color}}',
+            fillOpacity: 0.3,
+            radius: 200000
           }).addTo(map);
-          // {% endfor %}
+          {% endfor %}
          </script>
       </div>
     </div>

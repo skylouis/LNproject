@@ -16,7 +16,9 @@ class LN_graph(object):
 
             self.nx_graph.add_node(LN_node['pub_key'],
                                    last_update=LN_node['last_update'],
-                                   geo_info=geo_info
+                                   geo_info=geo_info,
+                                   alias=LN_node['alias'],
+                                   color=LN_node['color']
                                    )
         return
 

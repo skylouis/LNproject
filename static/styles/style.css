@@ -106,14 +106,13 @@ h1 {
 #total_result{
     color: #6b5aed;
     font-weight: bold;
-    text-align: center;
+    text-align: right;
     margin-bottom: 20px; 
 }
 
 #btc_dollar_exchange{
     color: #6b5aed;
     font-weight: bold;
-    text-align: center;
     margin-bottom: 20px;
 }
 

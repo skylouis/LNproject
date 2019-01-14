@@ -46,7 +46,7 @@
      }
 
      $.ajax(settings).done(function (response) {
-       var content = parseFloat({{ query[2] }}*1e-8/response).toFixed(2);
+       var content = parseFloat({{ cost }}*1e-5/response).toFixed(2);
        $("#btc_dollar_exchange").append("$");
        $("#btc_dollar_exchange").append(content);
      });
@@ -135,7 +135,7 @@
     <div class="row justify-content-center">
       <div class="col-12 col-sm-12 col-lg-6">
         <div id="total_result">
-          Fee: {{cost}}
+          Fee: {{cost}} Satoshis
         </div>
       </div>
 

@@ -16,7 +16,7 @@ class LN_graph(object):
 
             self.nx_graph.add_node(LN_node['pub_key'],
                                    last_update=LN_node['last_update'],
-                                   geo_info=geo_info,
+                                   geo_info=geo_info,   
                                    alias=LN_node['alias'],
                                    color=LN_node['color']
                                    )
@@ -61,13 +61,24 @@ class LN_graph(object):
         fee_base_msat = float(self.nx_graph[node1_pub][node2_pub]['fee_base_msat'])
         fee_rate_milli_msat = float(self.nx_graph[node1_pub][node2_pub]['fee_rate_milli_msat'])
         return  fee_base_msat + (1. * fee_rate_milli_msat / 1000) * transfered_amount
+    
+    def get_route_fees(self, path, amount):
+        total_fees = 0
+        new_amount = amount
+        for i in reversed(range(1,len(path))):
+            fees = self.fee_tranfert(path[i-1],path[i],new_amount)
+            total_fees += fees
+            new_amount += fees
+        return total_fees
 
     def time_locks(self, node1_pub, node2_pub):
         return self.nx_graph[node1_pub, node2_pub]['time_locks']
 
-    def best_path(self, node1_pub, node2_pub, transfered_amount, cost='fee', method='dijkstra'):
-        if cost=='fee':
+    def best_path(self, node1_pub, node2_pub, transfered_amount, cost_method='fee', method='dijkstra'):
+        if cost_method=='fee':
             cost_function = lambda node1_pub, node2_pub, transfered_amount: self.fee_tranfert(node2_pub, node1_pub, transfered_amount)
+        elif cost_method=='node':
+            cost_function = lambda node1_pub, node2_pub, transfered_amount: 1
 
         if method=='dijkstra':
             algorithm = dijkstra
@@ -82,6 +93,9 @@ class LN_graph(object):
             LN_node = self.nx_graph.nodes[pub_key]
             LN_node['pub_key'] = pub_key
             LN_nodes_path.append(LN_node)
+            
+        if cost_method=='node':
+            cost = self.get_route_fees(path, transfered_amount)            
 
         return path, cost, LN_nodes_path
 

@@ -20,24 +20,22 @@ def dijkstra(nx_graph, source_node_id, target_node_id, weight_function, amount_t
         node_ids.remove(min_dist_node_id)
         if not np.isinf(dist[min_dist_node_id]):
             for neighbor_node_id in nx_graph.neighbors(min_dist_node_id):
-                if nx_graph[min_dist_node_id][neighbor_node_id]['capacity'] > (amount_transfered + dist[min_dist_node_id]):
-                    pass
+                if float(nx_graph[min_dist_node_id][neighbor_node_id]['capacity']) > (amount_transfered + dist[min_dist_node_id])/1e3:
+                    alt = dist[min_dist_node_id] + weight_function(
+                            min_dist_node_id,
+                            neighbor_node_id,
+                            amount_transfered + dist[min_dist_node_id])
 
-                alt = dist[min_dist_node_id] + weight_function(
-                        min_dist_node_id,
-                        neighbor_node_id,
-                        amount_transfered + dist[min_dist_node_id])
+                    if alt < dist[neighbor_node_id]:
+                        dist[neighbor_node_id] = alt
+                        for node_id, value in prev.iteritems():
+                            if value == neighbor_node_id:
+                                dist[value] = alt + weight_function(
+                                    min_dist_node_id,
+                                    neighbor_node_id,
+                                    amount_transfered + dist[min_dist_node_id])
 
-                if alt < dist[neighbor_node_id]:
-                    dist[neighbor_node_id] = alt
-                    for node_id, value in prev.iteritems():
-                        if value == neighbor_node_id:
-                            dist[value] = alt + weight_function(
-                                min_dist_node_id,
-                                neighbor_node_id,
-                                amount_transfered + dist[min_dist_node_id])
-
-                    prev[neighbor_node_id] = min_dist_node_id
+                        prev[neighbor_node_id] = min_dist_node_id
 
     path = [target_node_id]
     while path[-1] != source_node_id:

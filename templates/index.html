@@ -49,13 +49,13 @@
           <div id="search_zone">
             <form action="/result" method="post">
               <label for="node1_pub">Emitter Public Key:</label>
-              <input type="text" id="node1_pub" name="node1_pub" placeholder="Enter the public key of the emitter node" maxlength="66">
+              <input type="text" id="node1_pub" name="node1_pub" placeholder="Enter the public key of the emitter node" maxlength="66" required>
 
               <label for="node2_pub">Receiver Public Key:</label>
-              <input type="text" id="node2_pub" name="node2_pub" placeholder="Enter the public key of the receiver node" maxlength="66">
+              <input type="text" id="node2_pub" name="node2_pub" placeholder="Enter the public key of the receiver node" maxlength="66" required>
 
               <label for="transfered_amount">Amount in Satoshis:</label>
-              <input type="number" id="transfered_amount" name="transfered_amount" placeholder="Amount to transfer in Satoshis" maxlength="20">
+              <input type="number" id="transfered_amount" name="transfered_amount" placeholder="Amount to transfer in Satoshis" maxlength="20" required>
 
               <label for="criteria">Criteria:</label>
               <!-- <input type="text" name="criteria" value="fee"> -->
@@ -92,7 +92,7 @@
               loop: true});
             </script>
           </div>
-         
+
           <div id="main_text">
             <div class="row align-items-center">
               <div align="justify">
@@ -100,13 +100,13 @@
                 <BR>
                 Fiind is a school project based on the lightning technology with the conviction that lightning can leverage the power of blockchains and smart contracts to make cheap, fast and private transactions available to anyone around the world. <br />
                 <BR>
-                The LND raises many problems in terms of scalability and applications. Along these issues, some concerns the routing topic, especially for large amounts as not all nodes have the same capacity. Our long term project is focused on the atomic payment method in order to split large amount and find the best route possible for each parts at the lowest cost. <br /> 
+                The LND raises many problems in terms of scalability and applications. Along these issues, some concerns the routing topic, especially for large amounts as not all nodes have the same capacity. Our long term project is focused on the atomic payment method in order to split large amount and find the best route possible for each parts at the lowest cost. <br />
                 <BR>
                 You will find here our first production on the topic: an optimal path generator based on your selected criteria. <br /></p>
                 <p></p>
               </div>
             </div>
-          </div> 
+          </div>
         </div>
       </div>
     </div>
@@ -140,5 +140,3 @@
 
 </body>
 </html>
-
-

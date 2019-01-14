@@ -84,3 +84,7 @@ class LN_graph(object):
             LN_nodes_path.append(LN_node)
 
         return path, cost, LN_nodes_path
+
+    def has_node(self, node_pub):
+        """Returns whether a given node public key is in the lightning network"""
+        return self.nx_graph.has_node(node_pub)

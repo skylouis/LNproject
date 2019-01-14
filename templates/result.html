@@ -66,15 +66,15 @@
       <div class="row justify-content-center">
         <div class="col-12 col-sm-12 col-lg-2">
           <label for="node1_pub">Emitter Public Key:</label><br>
-          <input type="text" id="node1_pub" name="node1_pub" value="{{ query[0] }}" placeholder="Enter the public key of the emitter node">
+          <input type="text" id="node1_pub" name="node1_pub" value="{{ query[0] }}" placeholder="Enter the public key of the emitter node" maxlength="66" required>
         </div>
         <div class="col-12 col-sm-12 col-lg-2">
           <label for="node2_pub">Receiver Public Key:</label><br>
-          <input type="text" id="node2_pub" name="node2_pub" value="{{ query[1] }}" placeholder="Enter the public key of the receiver node">
+          <input type="text" id="node2_pub" name="node2_pub" value="{{ query[1] }}" placeholder="Enter the public key of the receiver node" maxlength="66" required>
         </div>
         <div class="col-12 col-sm-12 col-lg-2">
           <label for="transfered_amount">Amount in Satoshis:</label><br>
-          <input type="number" id="transfered_amount" name="transfered_amount" value="{{ query[2] }}" placeholder="Amount to transfer in Satoshis">
+          <input type="number" id="transfered_amount" name="transfered_amount" value="{{ query[2] }}" placeholder="Amount to transfer in Satoshis" maxlength="20" required>
         </div>
         <div class="col-12 col-sm-12 col-lg-2">
             <label for="criteria">Criteria:</label><br>
@@ -164,7 +164,7 @@
           // start the map in South-East England
           map.setView(new L.LatLng(30, 0),2);
           map.addLayer(osm);
-          
+
 
           {% for row in nodes_path %}
           L.circle([{{row.geo_info.latitude}}, {{row.geo_info.longitude}}], {
